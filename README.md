@@ -2,69 +2,91 @@
 
 # ICU Mortality and Readmission Prediction Capstone 1
 
-This repository contains a deep learning project that identifies Southeast Asian countries from Google Street View images, using scene-specific coordinates and queries to gather real-world visual data.
-
-* **IMPORTANT:** This dataset was created using © Google Street View Static API. THe actual imagery is not distributed here to comply with Google's terms of service. You must obtain your own API key and download the images using the provided coordinates and pipelines
+* **IMPORTANT:** This project uses the publicly available eICU Collaborative Research Database Demo (v2.0.1) provided by © PhysioNet. Due to data use agreements and size constraints, raw source files are not redistributed here. Users must download the dataset directly from PhysioNet and follow the provided preprocessing and merging steps to reproduce the analysis
 
 ## OVERVIEW
 
-This project
+This repository contains a machine learning project focused on predicting poor outcomes among Intensive Care Unit (ICU) patients using demographic, clinical, and physiological data from the PhysioNet eICU Collaborative Research Database. The goal of this project is to evaluate how class imbalance affects predictive performance and to compare modeling strategies under unbalanced, balanced, and threshold-optimized training conditions.
 
 ## SUMMARY OF WORK DONE
 
 ### Data
 
   * **Type:**
-    * Input: 
-    * Output: 
+    * Input: Demographic, clinical, and physiological variables collected during ICU stays (age, gender, ethnicity, vital signs, laboratory measurements)
+    * Output: Binary outcome variable (bad_outcome), where 0 indicates a good outcome and 1 indicates ICU mortality or readmission
   * **Source:**
-    * Custom-built data set using queries from Overpass Turbo and images from Google Street View Static API
+    * PhysioNet eICU Collaborative Research Database (eICU-CRD) Demo v2.0.1
+    * Data merged from multiple tables, including patient, apachepatientresult, apacheapsvar, apachepredsvar, intakeoutput, and vitalperiodic
   * **Size of Classes:**
-    * 886 images from Indonesia, 893 from Malaysia, 896 from the Philippines, and 898 from Thailand. 3573 total images
+    * 2,520 ICU patients total
+    * 2,227 good outcomes (majority class)
+    * 293 bad outcomes (minority class), indicating severe class imbalance
   * **Splits:**
-    * 80% training and 20% validation
+    * 80% training and 20% validation with default threshold = 0.5
    
 #### Compiling Data and Image Pre-processing
 
 * **Data Collection and Cleaning:**
-    * h
-    * h
+    * Merged multiple eICU tables into a single analytic dataset (mergeICU_db) containing patient-level records
+    * Removed irrelevant, redundant, or non-informative features (e.g., aids, teachingstatus, numbedscategory)
+    * Identified and corrected inappropriate data types (e.g., converting age from categorical to numeric)
+    * Addressed clinically meaningful missing values by replacing placeholder values (–1) with NaN
+    * Removed features containing post-outcome information to prevent data leakage (e.g., dischargeweight, acutephysiologyscore)
 * **Pre-processing:**
+* Applied median imputation for numerical variables to remain robust to outliers
+* Filled missing categorical values with an explicit “Unknown” category to avoid fabricating medical data
+* Created missingness indicator flags for variables with high proportions of missing values
+* One-hot encoded categorical features such as ethnicity, gender, and admission source
+* Removed highly multicollinear features using Variance Inflation Factor (VIF) analysis
+* Generated both scaled and unscaled datasets to support different model requirements
  
 #### Data Visualization
 
-viz here
+<img width="1119" height="372" alt="Screenshot 2026-01-11 at 3 53 22 PM" src="https://github.com/user-attachments/assets/4740b48f-0ab7-4f7b-9ac2-e090bf2ff2fe" />
 
 ### Problem Formulation
 
 * **Models Used:**
-  * ****
-  * **M=**
-  * **m** 
+  * Logistic Regression (baseline, interpretable model)
+  * Support Vector Machine (SVM)
+  * Random Forest
+  * XGBoost
+  * Stacked Ensemble Model (LR+XGB as base models, LR as meta learner)
  
 ### Training
 
 Model training was conducted locally on a custom-built **Windows PC equipped with an AMD Ryzen 7 7700X CPU, RTX 4060 GPU, and 64 GB of DDR5 RAM**, using Jupyter Notebook. The training utilized TensorFlow/Keras along with key libraries such as numpy, matplotlib, and pandas.
 
-**Challenges:** o
+**Challenges:** Severe class imbalance posed a major challenge, as standard accuracy metrics caused models to favor the majority class and overlook high-risk patients. Clinically meaningful missing values required careful preprocessing to avoid distorting medical information, while high multicollinearity among physiological variables complicated feature selection. Additionally, preventing data leakage necessitated removing post-outcome features that artificially improved performance. Throughout the project, balancing predictive performance with clinical interpretability and real-world prevalence remained a key challenge.
 
 ### Performance Comparison
 
-#### **b**
+#### **Classification Reports, Classification Matrices, and ROC-AUC Curves for XGBoost (Unbalanced) vs. Stacked (Balanced) Model**
+<img width="696" height="195" alt="Screenshot 2026-01-11 at 3 56 43 PM" src="https://github.com/user-attachments/assets/6c461460-20e3-469f-a4fd-2efbbb14fdab" />
 
-#### **w**
+<img width="322" height="201" alt="Screenshot 2026-01-11 at 3 56 15 PM" src="https://github.com/user-attachments/assets/0b847cab-8b4f-4b8a-8945-13fa4ca7ebb0" />
+<br>
+<img width="466" height="188" alt="Screenshot 2026-01-11 at 3 56 04 PM" src="https://github.com/user-attachments/assets/1a5723e7-7acb-43e5-aa4a-e30f3900f172" />
+
+#### **Best Model Interpretability and Demonstration**
+<img width="280" height="167" alt="Screenshot 2026-01-11 at 3 58 03 PM" src="https://github.com/user-attachments/assets/04df05f0-f6ed-45b9-84ef-4bb532de8a94" />
+<br>
+<img width="742" height="410" alt="Screenshot 2026-01-11 at 3 58 51 PM" src="https://github.com/user-attachments/assets/4b6ffe71-ecd9-4353-a19a-230a2deb00f9" />
 
 ### Conclusions
 
-**WHAT THIS MEANS:** wee
+**WHAT THIS MEANS:** This project demonstrates that predicting poor ICU outcomes is feasible using demographic, clinical, and physiological data, but model performance is highly dependent on how class imbalance is handled. While unbalanced training achieved high overall accuracy, it consistently failed to identify high-risk patients due to poor sensitivity for the minority class. Balanced training strategies improved recall, ROC-AUC, and PR-AUC, resulting in fewer false negatives and more reliable detection of patients at risk of mortality or readmission. Both balanced and unbalanced models identified clinically meaningful severity and organ function markers, supporting the medical relevance of the features. However, balanced training can distort real-world prevalence and inflate false positives, making it less suitable for probability estimation. Ultimately, the optimal modeling approach depends on the clinical goal: balanced training for early detection and screening, unbalanced training with threshold optimization for realistic risk estimation, and hybrid approaches for clinical decision support.
 
 ### Future Work
- 
-* **Increase dataset size** to support deeper and more expressive models
-* **Collect more diverse scenery samples**, especially for countries with regional visual differences (e.g., urban vs. rural Philippines)
-* **Improve sampling strategy** by selecting coordinates ***randomly*** across the entire country instead of sequentially, reducing spatial bias
-* **Ensure broader geographic coverage** to avoid clustering in specific types of landscapes (e.g., beaches only)
-* **Incorporate finer-grained features** (types of vehicles like tricycles or tuk-tuks) that may help distinguish between countries
+
+* Threshold optimization for unbalanced training
+* Model fine-tuning
+* Multiple iteration (common technique used in medical data)
+* Improve stacked model architecture
+* Expand feature engineering
+* Dimensionality reduction (PCA)
+* Create a simulation dashboard
 
 ## HOW TO REPRODUCE RESULTS
 
@@ -72,7 +94,7 @@ Model training was conducted locally on a custom-built **Windows PC equipped wit
 
 The list below follows the chronological order in which each component of the project was developed:
 
-* **file:** weee
+* **file:** weee 
 
 ### Software Setup
 
@@ -83,18 +105,14 @@ This project was developed and executed in Google Colab Jupyter Notebook. If you
 ### Data
 
 * **Websites Used:**
-    * **data:** https://overpass-turbo.eu/
-* Dataset was built using Google Street View Static API with manually curated coordinates across Indonesia, Malaysia, the Philippines, and Thailand
-* Coordinates were gathered using map queries for specific sceneries (e.g., beaches, cities), reprojected, and sorted into a GeoDataFrame. API calls checked for available imagery; first 150 valid coordinates per scenery per country were used to conserve quota
-    * **For reference, see GeoJSON_to_CSV.ipynb**
+    * **PhysioNet — eICU Collaborative Research Database (eICU-CRD) Demo v2.0.1:** https://physionet.org/content/eicu-crd-demo/2.0.1/
  
 ### Training
 
 * Install required packages in notebook
 * Download and prepare the data (either from scratch or above, or use files in the Coordinates folder of this directory)
 * Models were trained using TensorFlow/Keras with early stopping and validation monitoring. Images were split into training and validation sets, preprocessed (resized and batched), and fed into models like MobileNetV2 and ResNet50. Training ran on a local machine with GPU support over multiple sessions
-
-***For reference, see g.ipynb***
+  ***For reference, see g.ipynb***
 
 #### Performance Evaluation
 
@@ -104,6 +122,7 @@ This project was developed and executed in Google Colab Jupyter Notebook. If you
 
 ## CITATIONS
 
-[1]
+[1] Armstrong, R. A., Kane, A. D., Kursumovic, E., Oglesby, F. C., & Cook, T. M. (2021). Mortality in patients admitted to intensive care with COVID-19: an updated systematic review and meta-analysis of observational studies. Anaesthesia, 76(4), 537–548. https://doi.org/10.1111/anae.15425
 
-[2] 
+[2] Lai, J. I., Lin, H. Y., Lai, Y. C., Lin, P. C., Chang, S. C., & Tang, G. J. (2012). Readmission to the intensive care unit: a population-based approach. Journal of the Formosan Medical Association = Taiwan yi zhi, 111(9), 504–509. https://doi.org/10.1016/j.jfma.2011.06.012
+
