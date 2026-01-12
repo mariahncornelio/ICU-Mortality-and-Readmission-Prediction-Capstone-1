@@ -113,18 +113,18 @@ This project was developed and executed in Google Colab Jupyter Notebook. If you
 * **Websites Used:**
     * **PhysioNet — eICU Collaborative Research Database (eICU-CRD) Demo v2.0.1:** https://physionet.org/content/eicu-crd-demo/2.0.1/
     * From here, you will download the "eicu_v2_0_1.sqlite3" file provided and create the data frame used for this pipeline
- ***For reference, see creating_mergeICU_db.ipynb***
+ * ***For reference, see creating_mergeICU_db.ipynb***
  
 ### Training
 * Install required packages in notebook
 * Download and prepare the data using the creating_mergeICU_db.ipynb notebook as a guideline
 * Train and test each model with default threshold=0.5 and Stratified k-fold cross-validation for all models
-***For reference, see icu_pipeline_mnc.ipynb***
+* ***For reference, see icu_pipeline_mnc.ipynb***
 
 #### Performance Evaluation
 * After training, model performance can be evaluated
 * Tableau Report: https://public.tableau.com/app/profile/darlene.eligado/viz/icu_17640085319390/Objective3
-***For reference, see icu_pipeline_mnc.ipynb***
+* ***For reference, see icu_pipeline_mnc.ipynb***
 
 ## CITATIONS
 
