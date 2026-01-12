@@ -43,6 +43,10 @@ This repository contains a machine learning project focused on predicting poor o
  
 #### Data Visualization
 
+##### Target variable "bad_outcome" class imbalance
+<img width="630" height="470" alt="download" src="https://github.com/user-attachments/assets/63d1dedf-2aa0-43be-ac81-e9ceb5ff8446" />
+<br></br>
+Metric Evaluation of candidate models
 <img width="1119" height="372" alt="Screenshot 2026-01-11 at 3 53 22 PM" src="https://github.com/user-attachments/assets/4740b48f-0ab7-4f7b-9ac2-e090bf2ff2fe" />
 
 ### Problem Formulation
@@ -93,8 +97,15 @@ Model training was conducted locally on a custom-built **Windows PC equipped wit
 ### Overview of Files in Repository
 
 The list below follows the chronological order in which each component of the project was developed:
-
-* **creating_mergeICU_db.ipynb** weee 
+* **Data Vocabulary.docx:** Vocabulary list created to help understand each feature in the data
+* **ICU_Proposal_PPT.pdf:** Project proposal powerpoint presentation
+* **DATA 4381 Proposal.docx:** Written project proposal report
+* **ICU_ProgressReport_PPT.pptx:** Mid-semester progress report on project findings
+* **creating_mergeICU_db.ipynb:** Notebook to follow to create main dataframe used for this project
+* **icu_pipeline_mnc.ipynb:** Data cleaning, model training, testing, and evaluation
+* **ICU_Capstone_Poster.pdf:** Final poster for this project
+* **ICU Tableau.pdf:** Final Tableau story for this project
+* **DATA 4381 Final Report.docx:** Final written report for this project
 
 ### Software Setup
 
