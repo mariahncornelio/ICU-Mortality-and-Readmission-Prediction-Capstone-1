@@ -122,7 +122,7 @@ This project was developed and executed in Google Colab Jupyter Notebook. If you
 ### Data
 
 * **Websites Used:**
-    * **PhysioNet — eICU Collaborative Research Database (eICU-CRD) Demo v2.0.1:** https://physionet.org/content/eicu-crd-demo/2.0.1/
+    * **PhysioNet - eICU Collaborative Research Database (eICU-CRD) Demo v2.0.1:** https://physionet.org/content/eicu-crd-demo/2.0.1/
     * From here, you will download the "eicu_v2_0_1.sqlite3" file provided and create the data frame used for this pipeline
  * ***For reference, see creating_mergeICU_db.ipynb***
  
