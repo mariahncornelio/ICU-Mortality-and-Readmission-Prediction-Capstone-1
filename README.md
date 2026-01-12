@@ -123,6 +123,7 @@ This project was developed and executed in Google Colab Jupyter Notebook. If you
 
 #### Performance Evaluation
 * After training, model performance can be evaluated
+* Tableau Report: https://public.tableau.com/app/profile/darlene.eligado/viz/icu_17640085319390/Objective3
 ***For reference, see icu_pipeline_mnc.ipynb***
 
 ## CITATIONS
