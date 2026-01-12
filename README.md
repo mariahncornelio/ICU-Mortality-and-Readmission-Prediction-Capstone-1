@@ -94,31 +94,36 @@ Model training was conducted locally on a custom-built **Windows PC equipped wit
 
 The list below follows the chronological order in which each component of the project was developed:
 
-* **file:** weee 
+* **creating_mergeICU_db.ipynb** weee 
 
 ### Software Setup
 
 This project was developed and executed in Google Colab Jupyter Notebook. If you don’t already have it installed, you can download it as part of the Anaconda distribution or install it via pip "pip install notebook".
 
-* packages
+* **Data Handling:** sqlite3, pandas, numpy
+* **Visualization:** matplotlib.pyplot, seaborn
+* **Statistics and Multicollinearity:** statsmodels.stats.outliers_influence.variance_inflation_factor, statsmodels.tools.tools.add_constant
+* **Preprocessing and Pipelines:** sklearn.model_selection, sklearn.compose.ColumnTransformer, sklearn.preprocessing, sklearn.pipeline.Pipeline, sklearn.impute.SimpleImputer
+* **Metrics and Evaluation:** sklearn.metrics – classification_report, confusion_matrix, ConfusionMatrixDisplay, roc_auc_score, roc_curve, auc, precision_recall_curve, average_precision_score, recall_score, precision_score, f1_score
+* **Models:** sklearn.linear_model.LogisticRegression, sklearn.svm.SVC, sklearn.ensemble.RandomForestClassifier, StackingClassifier, xgboost.XGBClassifier, lightgbm.LGBMClassifier
+* **Feature Importance:** sklearn.inspection.permutation_importance
 
 ### Data
 
 * **Websites Used:**
     * **PhysioNet — eICU Collaborative Research Database (eICU-CRD) Demo v2.0.1:** https://physionet.org/content/eicu-crd-demo/2.0.1/
+    * From here, you will download the "eicu_v2_0_1.sqlite3" file provided and create the data frame used for this pipeline
+ ***For reference, see creating_mergeICU_db.ipynb***
  
 ### Training
-
 * Install required packages in notebook
-* Download and prepare the data (either from scratch or above, or use files in the Coordinates folder of this directory)
-* Models were trained using TensorFlow/Keras with early stopping and validation monitoring. Images were split into training and validation sets, preprocessed (resized and batched), and fed into models like MobileNetV2 and ResNet50. Training ran on a local machine with GPU support over multiple sessions
-  ***For reference, see g.ipynb***
+* Download and prepare the data using the creating_mergeICU_db.ipynb notebook as a guideline
+* Train and test each model with default threshold=0.5 and Stratified k-fold cross-validation for all models
+***For reference, see icu_pipeline_mnc.ipynb***
 
 #### Performance Evaluation
-
-* After training, model performance can be evaluated using the validation set
-
-***For reference, see m.ipynb***
+* After training, model performance can be evaluated
+***For reference, see icu_pipeline_mnc.ipynb***
 
 ## CITATIONS
 
